@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내가 좋아하는 영화 Top 3</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .intro {
+      text-align: center;
+      font-size: 1.1em;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    ul {
+      margin: 0 0 20px 40px;
+      padding: 0;
+    }
+    ul li {
+      margin-bottom: 5px;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .table-container {
+      margin: 0 auto;
+      width: 90%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    caption {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>내가 좋아하는 영화 Top 3</h1>
+
+    <div class="intro">
+      안녕하세요 2021147573 이현빈입니다.<br>
+      아래는 제가 자주 방문하는 영화 정보 사이트와 좋아하는 영화 Top 3입니다.
+    </div>
+
+    <ul>
+      <li><a href="https://www.imdb.com" target="_blank">IMDB</a></li>
+      <li><a href="https://www.netflix.com" target="_blank">Netflix</a></li>
+    </ul>
+
+    <div class="table-container">
+      <table>
+        <caption>표1. Top3 영화</caption>
+        <thead>
+          <tr>
+            <th rowspan="2">순위</th>
+            <th colspan="3">영화 정보</th>
+          </tr>
+          <tr>
+            <th>제목</th>
+            <th>포스터</th>
+			<th>명대사</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>La La Land</td>
+            <td>
+              <img src="LaLaLand.jpg" 
+                   alt="La La Land Movie Poster" 
+                   width="200" 
+                   height="300">
+            </td>
+            <td>Here's to the fools who dream.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Oldboy</td>
+            <td>
+              <img src="OldBoy.jpg" 
+                   alt="Oldboy Movie Poster" 
+                   width="200" 
+                   height="300">
+            </td>
+            <td>15 years of imprisonment, five days of vengeance</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Fight Club</td>
+            <td>
+              <img src="FightClub.jpg" 
+                   alt="Fight Club Movie Poster" 
+                   width="200" 
+                   height="300">
+            </td>
+            <td>Mischief. Mayhem. Soap.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</body>
+</html>
