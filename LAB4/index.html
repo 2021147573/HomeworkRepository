@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>인프밍 영화 정보 사이트입니다.</title>
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <div class="container">
+
+    <header class="site-header">
+      <h1 class="site-title">인프밍 영화 정보 사이트입니다.</h1>
+      <nav class="site-nav">
+        <a href="index.html" class="active">메인페이지</a>
+        <a href="login.html">로그인</a>
+        <a href="signup.html">회원가입</a>
+      </nav>
+    </header>
+    <hr />
+
+    <div class="search-wrapper">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="키워드를 입력하세요."
+        aria-label="영화 검색"
+      />
+      <button id="filterBtn">Filter results</button>
+    </div>
+
+    <main class="main-content">
+      <aside class="sort-panel">
+        <fieldset>
+          <legend>정렬 기준</legend>
+          <label><input type="radio" name="sort" value="rating-desc" checked> 평점 내림차순</label>
+          <label><input type="radio" name="sort" value="rating-asc"> 평점 오름차순</label>
+          <label><input type="radio" name="sort" value="date-desc"> 개봉 내림차순</label>
+          <label><input type="radio" name="sort" value="date-asc"> 개봉 오름차순</label>
+        </fieldset>
+      </aside>
+
+      <section id="movieGrid" class="movie-grid">
+
+      </section>
+    </main>
+
+    <div id="loading" class="loading">로딩 중…</div>
+
+    <footer class="site-footer">
+      © 2021147573 이현빈
+    </footer>
+  </div>
+
+  <script>
+    const initialLoad = 9, perPage = 3, container = document.getElementById('movieGrid');
+    let movies = [], filtered = [], currentIndex = 0, isFirstLoad = true;
+
+    function renderMovies(count) {
+      const endIndex = Math.min(currentIndex + count, filtered.length);
+      const slice = filtered.slice(currentIndex, endIndex);
+      
+      slice.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'movie-card';
+        card.innerHTML = `
+          <img src="${m.poster_path}" alt="${m.title} 포스터"/>
+          <div class="info">
+            <h2>${m.title}</h2>
+            <small>📅 ${m.release_date || '—'}</small>
+            <p>⭐ ${m.vote_average}</p>
+          </div>
+          <div class="overlay"><p>${m.overview||'줄거리 없음'}</p></div>
+        `;
+        container.appendChild(card);
+      });
+      
+      currentIndex = endIndex;
+    }
+
+    function loadInitial() {
+      renderMovies(initialLoad);
+      isFirstLoad = false;
+    }
+
+    function loadMore() {
+      if (!isFirstLoad) {
+        renderMovies(perPage);
+      }
+    }
+
+    function applyFilters() {
+      const kw = document.getElementById('searchInput').value.trim().toLowerCase();
+      filtered = movies.filter(m => m.title.toLowerCase().includes(kw));
+
+      const sortVal = document.querySelector('input[name=sort]:checked').value;
+      const [key, ord] = sortVal.split('-');
+      filtered.sort((a,b)=>{
+        let va, vb;
+        if (key === 'rating') {
+          va = +a.vote_average;
+          vb = +b.vote_average;
+        } else {
+          va = a.release_date || '0000-00-00';
+          vb = b.release_date || '0000-00-00';
+        }
+        return ord==='asc'? (va<vb?-1:1) : (va>vb?-1:1);
+      });
+      
+      currentIndex = 0;
+      isFirstLoad = true;
+      container.innerHTML = '';
+      loadInitial();
+    }
+
+    document.getElementById('filterBtn').addEventListener('click', applyFilters);
+    document.querySelectorAll('input[name=sort]')
+      .forEach(r=> r.addEventListener('change', applyFilters));
+
+    window.addEventListener('scroll', ()=>{
+      if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100){
+        if(currentIndex < filtered.length) {
+          loadMore();
+        }
+      }
+    });
+
+	fetch('product.json')
+      .then(res=> res.json())
+      .then(data=>{
+        movies = data;
+        filtered = [...movies];
+
+              const sortVal = document.querySelector('input[name=sort]:checked').value;
+      const [key, ord] = sortVal.split('-');
+      filtered.sort((a,b)=>{
+        let va, vb;
+        if (key === 'rating') {
+          va = +a.vote_average;
+          vb = +b.vote_average;
+        } else {
+          va = a.release_date || '0000-00-00';
+          vb = b.release_date || '0000-00-00';
+        }
+        return ord==='asc'? (va<vb?-1:1) : (va>vb?-1:1);
+      });
+        
+        document.getElementById('loading').style.display='none';
+        loadInitial();
+      })
+      .catch(e=>{
+        document.getElementById('loading').textContent='데이터 로드 오류';
+        console.error(e);
+      });
+  </script>
+</body>
+</html>
